@@ -1,0 +1,36 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2026-02-15T22:33:15+00:00"
+    },
+    {
+      "path": "gv300-showcase.html",
+      "title": "GV300 Showcase",
+      "description": "My best work from GV300",
+      "author": [],
+      "contents": "\r\n\r\nContents\r\nIntroduction\r\nThe Code\r\nLoad UK election data\r\nClean column names\r\nFilter and aggregate by constituency\r\nCalculate turnout\r\nCompute country-level statistics\r\nThe Visualization\r\nKey Findings\r\nSource Code\r\n\r\n\r\nIntroduction\r\nThis showcase presents my analysis of the UK 2024 General Election, examining voter turnout patterns across constituencies and countries. Using official election data, I explored how turnout varies geographically and what this reveals about political engagement across the United Kingdom.\r\nThe Code\r\nHere’s the code I used to clean and analyze UK election data:\r\n​```{r}\r\nlibrary(dplyr)\r\nlibrary(ggplot2)\r\nlibrary(readr)\r\nlibrary(stringr)\r\nLoad UK election data\r\nuk_csv <- “candidate-level-results-general-election-04-07-2024.csv”\r\nuk_raw <- readr::read_csv(uk_csv, show_col_types = FALSE)\r\nClean column names\r\nnames(uk_raw) <- names(uk_raw) %>%\r\ntolower() %>%\r\nstr_replace_all(“\\s+”, “_“)\r\nFilter and aggregate by constituency\r\nuk1 <- uk_raw %>% filter(!election_is_by-election)\r\nuk2 <- uk1 %>%\r\nselect(\r\nconstituency = constituency_name,\r\ncountry_name,\r\nvalid_votes = candidate_vote_count,\r\nelectorate\r\n)\r\nuk3 <- uk2 %>%\r\ngroup_by(country_name, constituency) %>%\r\nsummarise(\r\nvalid_votes = sum(valid_votes, na.rm = TRUE),\r\nelectorate = max(electorate, na.rm = TRUE),\r\n.groups = “drop”\r\n)\r\nCalculate turnout\r\nuk <- uk3 %>%\r\nmutate(turnout_registered = 100 * valid_votes / electorate) %>%\r\nfilter(is.finite(turnout_registered), electorate > 0)\r\nCompute country-level statistics\r\nturnout_by_country <- uk %>%\r\ngroup_by(country_name) %>%\r\nsummarise(\r\nmean_turnout = mean(turnout_registered, na.rm = TRUE),\r\nmedian_turnout = median(turnout_registered, na.rm = TRUE),\r\nn = n(),\r\n.groups = “drop”\r\n) %>%\r\narrange(desc(mean_turnout))\r\nturnout_by_country\r\n​```\r\nThe Visualization\r\nThis visualization compares mean and median voter turnout across the four UK countries:\r\n​{r, fig.cap=\"UK 2024 Election turnout by country\", fig.width=8, fig.height=5} ggplot(turnout_by_country, aes(x = reorder(country_name, mean_turnout), y = mean_turnout)) +   geom_col(width = 0.7, fill = \"#0072B2\") +   geom_point(aes(y = median_turnout), color = \"red\", size = 3) +   scale_y_continuous(limits = c(0, 100),                      expand = expansion(mult = c(0, 0.05))) +   labs(     title = \"UK 2024 General Election: Mean & Median Turnout by Country\",     subtitle = \"Bars = mean turnout; Red points = median turnout\",     x = \"Country\",     y = \"Turnout (% of registered voters)\"   ) +   theme_minimal() ​\r\nExplanation: This figure reveals important patterns in UK political engagement. England shows the highest mean turnout at approximately 60%, followed closely by Scotland at 59%. Wales and Northern Ireland show slightly lower turnout rates around 56-57%. The red points indicate median turnout, which helps us understand the distribution - when median and mean are similar, turnout is relatively consistent across constituencies within that country.\r\nThe analysis demonstrates that smaller areas outside major cities tend to have higher turnout rates, whilst large urban constituencies typically show lower engagement. This pattern likely reflects differences in community cohesion, with smaller, more tightly-knit areas fostering greater civic participation. The visualization uses bars ordered by mean turnout for easy comparison, and the dual representation of mean and median provides a more complete picture than either measure alone would offer.\r\nKey Findings\r\nThe main takeaways from this analysis were:\r\nEngland achieved the highest average turnout, though differences between countries were relatively modest\r\nUrban constituencies consistently showed lower turnout than smaller, rural areas\r\nThe similarity between mean and median values suggests turnout patterns are fairly consistent within each country\r\nSource Code\r\nThe complete code and analysis are available in my GitHub repository.\r\n\r\n\r\n\r\n",
+      "last_modified": "2026-02-15T22:33:16+00:00"
+    },
+    {
+      "path": "index.html",
+      "title": "My Website",
+      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2026-02-15T22:33:17+00:00"
+    },
+    {
+      "path": "landing.html",
+      "title": "Brandon Hopper",
+      "author": [],
+      "contents": "\r\n\r\n          \r\n          \r\n          Brandon Hopper\r\n          \r\n          \r\n          Home\r\n          GV300 Showcase\r\n          About\r\n          ☰\r\n          \r\n          \r\n      \r\n        \r\n          \r\n            \r\n              \r\n            \r\n              Brandon Hopper\r\n            \r\n            \r\n              \r\n                \r\n                    \r\n                      \r\n                        GitHub\r\n                      \r\n                    \r\n                  \r\n                                    \r\n                    \r\n                      \r\n                        Email\r\n                      \r\n                    \r\n                  \r\n                                  \r\n            \r\n          \r\n        \r\n        \r\n        \r\n          \r\n            I’m a final-year student at the University of Essex\r\n            studying Politics, Philosophy and Economics.\r\n            My interests include data analysis, political economy,\r\n            and data visualization.\r\n            Check out my GV300\r\n            Showcase to see my best work from class!\r\n          \r\n        \r\n      \r\n    \r\n\r\n    \r\n      \r\n        \r\n          \r\n            \r\n              \r\n            \r\n              Brandon Hopper\r\n            \r\n            \r\n              \r\n                \r\n                                    \r\n                    \r\n                      GitHub\r\n                    \r\n                  \r\n                                    \r\n                    \r\n                      Email\r\n                    \r\n                  \r\n                                  \r\n              \r\n            \r\n            \r\n              I’m a final-year student at the University of Essex\r\n              studying Politics, Philosophy and Economics.\r\n              My interests include data analysis, political economy,\r\n              and data visualization.\r\n              Check out my GV300\r\n              Showcase to see my best work from class!\r\n            \r\n        \r\n      \r\n    \r\n\r\n    \r\n    \r\n    ",
+      "last_modified": "2026-02-15T22:33:18+00:00"
+    }
+  ],
+  "collections": []
+}
