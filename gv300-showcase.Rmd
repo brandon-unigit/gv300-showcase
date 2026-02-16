@@ -1,0 +1,174 @@
+---
+title: "GV300 Showcase: UK Election Turnout Analysis"
+description: "Analysis of voter turnout patterns in the 2024 UK General Election"
+author: "Brandon Hopper"
+date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    code_folding: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+# Introduction
+
+For this showcase, I'm presenting my work from Assignment 1 in GV300, where I analyzed voter turnout data from the 2024 UK General Election. This project was my first experience working with real election data in R, and it taught me a lot about data cleaning, visualization, and drawing meaningful insights from patterns in political behavior.
+
+I chose this assignment because it challenged me to work with messy real-world data (handling inconsistent column names, filtering special elections, dealing with missing values) and then communicate findings clearly through visualization. The assignment also made me think critically about what drives voter turnout across different regions of the UK.
+
+## Why This Work Matters
+
+Understanding turnout patterns is crucial for democratic health. Low turnout in certain constituencies might signal political disengagement, while high turnout could indicate competitive races or effective mobilization. By examining these patterns across England, Scotland, Wales, and Northern Ireland, we can better understand regional differences in political participation.
+
+# The Data
+
+I worked with the official UK Electoral Commission data on the July 2024 General Election, which contained candidate-level results for all 650 constituencies. The dataset included information on votes cast, electorate size, constituency names, and country divisions.
+
+```{r load-packages, eval=FALSE}
+# Load necessary packages
+library(readr)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+```
+
+```{r load-data, eval=FALSE}
+# Load the UK election data
+uk_csv <- "candidate-level-results-general-election-04-07-2024.csv"
+uk_raw <- read_csv(uk_csv, show_col_types = FALSE)
+
+# Clean column names - convert to lowercase and replace spaces with underscores
+names(uk_raw) <- names(uk_raw) %>%
+  tolower() %>%
+  str_replace_all("\\s+", "_")
+
+# Look at the structure
+glimpse(uk_raw)
+```
+
+The raw data had over 3,000 rows (one for each candidate), so my first task was aggregating it up to the constituency level to calculate total turnout per area.
+
+# Data Cleaning and Preparation
+
+One of the biggest challenges I faced was handling the data structure. Since each candidate appeared as a separate row, I needed to group by constituency and sum up all the votes cast. I also had to filter out by-elections (special elections held between general elections) to focus only on the July 2024 general election results.
+
+```{r clean-data, eval=FALSE}
+# Filter out by-elections - we only want the general election
+uk1 <- uk_raw %>% 
+  filter(!`election_is_by-election`)
+
+# Select relevant columns and rename for clarity
+uk2 <- uk1 %>%
+  select(
+    constituency = constituency_name,
+    country_name,
+    valid_votes = candidate_vote_count,
+    electorate
+  )
+
+# Group by constituency to get total votes and electorate
+uk3 <- uk2 %>%
+  group_by(country_name, constituency) %>%
+  summarise(
+    valid_votes = sum(valid_votes, na.rm = TRUE),
+    electorate = max(electorate, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Calculate turnout percentage
+uk <- uk3 %>%
+  mutate(turnout_registered = 100 * valid_votes / electorate) %>%
+  filter(is.finite(turnout_registered), electorate > 0)
+
+glimpse(uk)
+```
+
+This code does several things:
+1. Filters to keep only general election results
+2. Selects the key variables we need
+3. Groups by constituency and sums all candidate votes to get total turnout
+4. Calculates turnout as a percentage of registered voters
+5. Removes any constituencies with invalid data (zero electorate or infinite values)
+
+The trickiest part was realizing I needed `max(electorate)` rather than `sum(electorate)` - since electorate is the same for all candidates in a constituency, summing would multiply it by the number of candidates!
+
+# Analysis and Visualization
+
+My main research question was: **How does voter turnout vary across the four nations of the UK?**
+
+First, I calculated summary statistics by country:
+
+```{r analysis, eval=FALSE}
+turnout_by_country <- uk %>%
+  group_by(country_name) %>%
+  summarise(
+    mean_turnout = mean(turnout_registered, na.rm = TRUE),
+    median_turnout = median(turnout_registered, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(mean_turnout))
+
+turnout_by_country
+```
+
+Then I created a visualization to show both mean and median turnout by country:
+
+```{r main-visualization, eval=FALSE, fig.cap="Mean and median voter turnout by UK country in the 2024 General Election", fig.height=6, fig.width=8}
+ggplot(turnout_by_country, aes(x = reorder(country_name, mean_turnout), y = mean_turnout)) +
+  geom_col(width = 0.7, fill = "#0072B2") +
+  geom_point(aes(y = median_turnout), color = "red", size = 3) +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = expansion(mult = c(0, 0.05))) +
+  labs(
+    title = "UK 2024 General Election: Mean & Median Turnout by Country",
+    subtitle = "Bars = mean turnout; Red points = median turnout",
+    x = "Country",
+    y = "Turnout (% of registered voters)"
+  ) +
+  theme_minimal()
+```
+
+![UK Election Turnout Chart](https://brandon-unigit.github.io/gv300-showcase/figure-if-it-renders.png)
+
+## Interpretation
+
+This visualization reveals several interesting patterns:
+
+1. **England had the highest mean turnout** at about 60%, followed closely by Scotland at 59%. This surprised me initially, as I expected Scotland to lead given its recent high-profile independence debates and generally high political engagement.
+
+2. **Wales and Northern Ireland had lower turnout**, averaging around 56-57%. Wales's lower turnout might reflect economic challenges and political disillusionment in some constituencies, while Northern Ireland's unique political context (including power-sharing arrangements and different party systems) may affect participation patterns.
+
+3. **The red dots show median turnout is often very close to the mean**, suggesting turnout is fairly symmetrically distributed within each country without major outliers pulling the average up or down dramatically.
+
+4. **One limitation** is that these country-level averages hide substantial variation within countries. Urban constituencies (like Manchester or Glasgow) tend to have lower turnout than rural or suburban areas, regardless of country. Future analysis could explore these within-country differences.
+
+Through exploring the data further, I noticed that high-turnout constituencies tended to be smaller, more affluent areas, while low-turnout areas were often large urban constituencies with younger populations and more rental housing. This suggests turnout patterns are driven by local socioeconomic factors as much as national-level politics.
+
+# What I Learned
+
+Through this assignment, I developed several key skills:
+
+- **Data wrangling**: I learned how to use `group_by()` and `summarise()` to aggregate candidate-level data up to constituencies, and how to handle inconsistently named columns using `str_replace_all()`.
+
+- **Visualization design**: I practiced making design choices to improve readability - adding median turnout as points to show variability, reordering bars by value for easier comparison, and using percentage formatting on the y-axis.
+
+- **Critical interpretation**: I learned to look beyond surface patterns. Initially, I might have just said "England has the highest turnout," but digging deeper revealed that the differences between countries are fairly modest, and within-country variation is probably more important than between-country differences.
+
+The biggest challenge was figuring out why my turnout calculations were initially coming out wrong - I was summing electorate instead of taking the max, which gave me absurdly high numbers! Once I realized each row represented a candidate (not a constituency), the solution became clear. This taught me the importance of truly understanding your data structure before doing calculations.
+
+# Code Repository
+
+The complete code and data files for this analysis are available in my GitHub repository:  
+[github.com/brandon-unigit/gv300-showcase](https://github.com/brandon-unigit/gv300-showcase)
+
+# References
+
+Electoral Commission. (2024). *Candidate-level results: General Election 4 July 2024*. Retrieved from official UK Electoral Commission data portal.
+
+---
+
+*This analysis was completed as part of GV300 (Data Science with R) at the University of Essex. All code and interpretation is my own work, completed in November 2025.*
