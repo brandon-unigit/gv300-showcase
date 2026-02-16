@@ -1,0 +1,14 @@
+name: "my-website"
+title: "Brandon Hopper"
+description: |
+  Brandon Hopper's personal website
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: landing.html
+    - text: "GV300 Showcase"
+      href: gv300-showcase.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article
