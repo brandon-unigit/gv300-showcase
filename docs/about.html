@@ -89,33 +89,29 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>Brandon Hopper: GV300 Showcase: UK Election Turnout Analysis</title>
+  <title>Brandon Hopper: About this site</title>
 
-  <meta property="description" itemprop="description" content="Analysis of voter turnout patterns in the 2024 UK General Election"/>
+  <meta property="description" itemprop="description" content="Some additional details about the website"/>
 
 
-  <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2026-02-16"/>
-  <meta property="article:created" itemprop="dateCreated" content="2026-02-16"/>
-  <meta name="article:author" content="Brandon Hopper"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Brandon Hopper: GV300 Showcase: UK Election Turnout Analysis"/>
+  <meta property="og:title" content="Brandon Hopper: About this site"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Analysis of voter turnout patterns in the 2024 UK General Election"/>
+  <meta property="og:description" content="Some additional details about the website"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Brandon Hopper"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Brandon Hopper: GV300 Showcase: UK Election Turnout Analysis"/>
-  <meta property="twitter:description" content="Analysis of voter turnout patterns in the 2024 UK General Election"/>
+  <meta property="twitter:title" content="Brandon Hopper: About this site"/>
+  <meta property="twitter:description" content="Some additional details about the website"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["GV300 Showcase: UK Election Turnout Analysis"]},{"type":"character","attributes":{},"value":["Analysis of voter turnout patterns in the 2024 UK General Election"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Brandon Hopper"]}]}]},{"type":"character","attributes":{},"value":["2026-02-16"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["About this site"]},{"type":"character","attributes":{},"value":["Some additional details about the website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2124,7 +2120,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"GV300 Showcase: UK Election Turnout Analysis","description":"Analysis of voter turnout patterns in the 2024 UK General Election","authors":[{"author":"Brandon Hopper","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2026-02-16T00:00:00.000+00:00","citationText":"Hopper, 2026"}
+{"title":"About this site","description":"Some additional details about the website","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2146,244 +2142,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>GV300 Showcase: UK Election Turnout Analysis</h1>
+<h1>About this site</h1>
 
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p>Analysis of voter turnout patterns in the 2024 UK General Election</p>
+<p><p>Some additional details about the website</p></p>
 </div>
 
-<div class="d-byline">
-  
-  Brandon Hopper
-  
-<br/>2026-02-16
-</div>
 
 <div class="d-article">
-<div class="d-contents d-contents-float">
-<nav class="l-text toc figcaption" id="TOC">
-<h3>Contents</h3>
-<ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
-<ul>
-<li><a href="#why-this-work-matters" id="toc-why-this-work-matters">Why This Work Matters</a></li>
-</ul></li>
-<li><a href="#the-data" id="toc-the-data">The Data</a></li>
-<li><a href="#data-cleaning-and-preparation" id="toc-data-cleaning-and-preparation">Data Cleaning and Preparation</a></li>
-<li><a href="#analysis-and-visualization" id="toc-analysis-and-visualization">Analysis and Visualization</a>
-<ul>
-<li><a href="#interpretation" id="toc-interpretation">Interpretation</a></li>
-</ul></li>
-<li><a href="#what-i-learned" id="toc-what-i-learned">What I Learned</a></li>
-<li><a href="#code-repository" id="toc-code-repository">Code Repository</a></li>
-<li><a href="#references" id="toc-references">References</a></li>
-</ul>
-</nav>
-</div>
-<h1 id="introduction">Introduction</h1>
-<p>For this showcase, I’m presenting my work from Assignment 1 in GV300, where I analyzed voter turnout data from the 2024 UK General Election. This project was my first experience working with real election data in R, and it taught me a lot about data cleaning, visualization, and drawing meaningful insights from patterns in political behavior.</p>
-<p>I chose this assignment because it challenged me to work with messy real-world data (handling inconsistent column names, filtering special elections, dealing with missing values) and then communicate findings clearly through visualization. The assignment also made me think critically about what drives voter turnout across different regions of the UK.</p>
-<h2 id="why-this-work-matters">Why This Work Matters</h2>
-<p>Understanding turnout patterns is crucial for democratic health. Low turnout in certain constituencies might signal political disengagement, while high turnout could indicate competitive races or effective mobilization. By examining these patterns across England, Scotland, Wales, and Northern Ireland, we can better understand regional differences in political participation.</p>
-<h1 id="the-data">The Data</h1>
-<p>I worked with the official UK Electoral Commission data on the July 2024 General Election, which contained candidate-level results for all 650 constituencies. The dataset included information on votes cast, electorate size, constituency names, and country divisions.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
-<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://stringr.tidyverse.org'>stringr</a></span><span class='op'>)</span></span>
-<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># Load the UK election data</span></span>
-<span><span class='va'>uk_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"candidate-level-results-general-election-04-07-2024.csv"</span>, </span>
-<span>                   stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'># Look at the structure</span></span>
-<span><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>uk_raw</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code>Rows: 4,515
-Columns: 52
-$ Parliament.number                        &lt;int&gt; 59, 59, 59, 59, 59,…
-$ Parliament.summoned.on                   &lt;chr&gt; &quot;2024-07-09&quot;, &quot;2024…
-$ Parliament.dissolved.on                  &lt;lgl&gt; NA, NA, NA, NA, NA,…
-$ Parliament.Wikidata.ID                   &lt;chr&gt; &quot;Q126063704&quot;, &quot;Q126…
-$ Parliament.London.Gazette.citation       &lt;lgl&gt; NA, NA, NA, NA, NA,…
-$ Parliament.URL                           &lt;chr&gt; &quot;https://electionre…
-$ General.election.polling.date            &lt;chr&gt; &quot;2024-07-04&quot;, &quot;2024…
-$ General.election.is.notional             &lt;chr&gt; &quot;false&quot;, &quot;false&quot;, &quot;…
-$ Total.electorate.in.general.election     &lt;int&gt; 48224212, 48224212,…
-$ Total.valid.votes.in.general.election    &lt;int&gt; 28809340, 28809340,…
-$ Total.invalid.votes.in.general.election  &lt;int&gt; 116253, 116253, 116…
-$ General.election.URL                     &lt;chr&gt; &quot;https://electionre…
-$ Country.name                             &lt;chr&gt; &quot;Wales&quot;, &quot;Wales&quot;, &quot;…
-$ Country.geographic.code                  &lt;chr&gt; &quot;W92000004&quot;, &quot;W9200…
-$ Country.URL                              &lt;chr&gt; &quot;https://electionre…
-$ English.region.name                      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;,…
-$ English.region.geographic.code           &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;,…
-$ English.region.URL                       &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;,…
-$ Constituency.name                        &lt;chr&gt; &quot;Aberafan Maesteg&quot;,…
-$ Constituency.geographic.code             &lt;chr&gt; &quot;W07000081&quot;, &quot;W0700…
-$ Constituency.designation                 &lt;chr&gt; &quot;County&quot;, &quot;County&quot;,…
-$ Constituency.URL                         &lt;chr&gt; &quot;https://electionre…
-$ Boundary.set.start.date                  &lt;chr&gt; &quot;2024-05-31&quot;, &quot;2024…
-$ Boundary.set.end.date                    &lt;lgl&gt; NA, NA, NA, NA, NA,…
-$ Boundary.set.URL                         &lt;chr&gt; &quot;https://electionre…
-$ Electorate                               &lt;int&gt; 72580, 72580, 72580…
-$ Election.polling.date                    &lt;chr&gt; &quot;2024-07-04&quot;, &quot;2024…
-$ Election.is.by.election                  &lt;chr&gt; &quot;false&quot;, &quot;false&quot;, &quot;…
-$ Declaration.time                         &lt;lgl&gt; NA, NA, NA, NA, NA,…
-$ Election.valid.vote.count                &lt;int&gt; 35755, 35755, 35755…
-$ Election.invalid.vote.count              &lt;int&gt; 79, 79, 79, 79, 79,…
-$ Election.URL                             &lt;chr&gt; &quot;https://electionre…
-$ Election.result.summary                  &lt;chr&gt; &quot;Lab hold&quot;, &quot;Lab ho…
-$ Candidate.family.name                    &lt;chr&gt; &quot;Kinnock&quot;, &quot;Griffit…
-$ Candidate.given.name                     &lt;chr&gt; &quot;Stephen&quot;, &quot;Mark&quot;, …
-$ Candidate.MNIS.ID                        &lt;int&gt; 4359, NA, NA, NA, N…
-$ Candidate.is.sitting.MP                  &lt;chr&gt; &quot;true&quot;, &quot;false&quot;, &quot;f…
-$ Candidate.is.former.MP                   &lt;chr&gt; &quot;true&quot;, &quot;false&quot;, &quot;f…
-$ Candidate.Member.URL                     &lt;chr&gt; &quot;https://electionre…
-$ Main.party.name                          &lt;chr&gt; &quot;Labour&quot;, &quot;Reform U…
-$ Main.party.abbreviation                  &lt;chr&gt; &quot;Lab&quot;, &quot;RUK&quot;, &quot;PC&quot;,…
-$ Main.party.MNIS.ID                       &lt;int&gt; 15, 1036, 22, 4, 44…
-$ Main.party.URL                           &lt;chr&gt; &quot;https://electionre…
-$ Adjunct.party.name                       &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;,…
-$ Adjunct.party.abbreviation               &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;,…
-$ Candidate.is.standing.as.Commons.Speaker &lt;chr&gt; &quot;false&quot;, &quot;false&quot;, &quot;…
-$ Candidate.is.standing.as.independent     &lt;chr&gt; &quot;false&quot;, &quot;false&quot;, &quot;…
-$ Candidate.vote.count                     &lt;int&gt; 17838, 7484, 4719, …
-$ Candidate.vote.share                     &lt;dbl&gt; 0.498895, 0.209313,…
-$ Candidate.vote.change                    &lt;dbl&gt; -0.030313, 0.123907…
-$ Majority                                 &lt;int&gt; 10354, NA, NA, NA, …
-$ Candidate.result.position                &lt;int&gt; 1, 2, 3, 4, 5, 6, 7…</code></pre>
-</div>
-<p>The raw data had over 3,000 rows (one for each candidate), so my first task was aggregating it up to the constituency level to calculate total turnout per area.</p>
-<h1 id="data-cleaning-and-preparation">Data Cleaning and Preparation</h1>
-<p>One of the biggest challenges I faced was handling the data structure. Since each candidate appeared as a separate row, I needed to group by constituency and sum up all the votes cast. I also had to filter out by-elections (special elections held between general elections) to focus only on the July 2024 general election results.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># Select relevant columns using the actual column names (with dots)</span></span>
-<span><span class='va'>uk2</span> <span class='op'>&lt;-</span> <span class='va'>uk_raw</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span></span>
-<span>    constituency <span class='op'>=</span> <span class='va'>Constituency.name</span>,</span>
-<span>    country_name <span class='op'>=</span> <span class='va'>Country.name</span>,</span>
-<span>    valid_votes <span class='op'>=</span> <span class='va'>Candidate.vote.count</span>,</span>
-<span>    electorate <span class='op'>=</span> <span class='va'>Electorate</span>,</span>
-<span>    is_by_election <span class='op'>=</span> <span class='va'>Election.is.by.election</span></span>
-<span>  <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='co'># Filter out by-elections</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>is_by_election</span> <span class='op'>==</span> <span class='st'>"false"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='co'># Remove the is_by_election column since we don't need it anymore</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>is_by_election</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'># Group by constituency to get total votes and electorate</span></span>
-<span><span class='va'>uk3</span> <span class='op'>&lt;-</span> <span class='va'>uk2</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>country_name</span>, <span class='va'>constituency</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span></span>
-<span>    valid_votes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>valid_votes</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
-<span>    electorate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>electorate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
-<span>    .groups <span class='op'>=</span> <span class='st'>"drop"</span></span>
-<span>  <span class='op'>)</span></span>
-<span></span>
-<span><span class='co'># Calculate turnout percentage</span></span>
-<span><span class='va'>uk</span> <span class='op'>&lt;-</span> <span class='va'>uk3</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>turnout_registered <span class='op'>=</span> <span class='fl'>100</span> <span class='op'>*</span> <span class='va'>valid_votes</span> <span class='op'>/</span> <span class='va'>electorate</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/is.finite.html'>is.finite</a></span><span class='op'>(</span><span class='va'>turnout_registered</span><span class='op'>)</span>, <span class='va'>electorate</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>uk</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code>Rows: 650
-Columns: 5
-$ country_name       &lt;chr&gt; &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;England…
-$ constituency       &lt;chr&gt; &quot;Aldershot&quot;, &quot;Aldridge-Brownhills&quot;, &quot;Altr…
-$ valid_votes        &lt;int&gt; 48544, 40912, 51452, 42531, 54740, 39882,…
-$ electorate         &lt;int&gt; 78553, 70268, 74025, 71546, 77969, 68929,…
-$ turnout_registered &lt;dbl&gt; 61.79777, 58.22280, 69.50625, 59.44567, 7…</code></pre>
-</div>
-<p>This code does several things:</p>
-<ol type="1">
-<li>Filters to keep only general election results</li>
-<li>Selects the key variables we need</li>
-<li>Groups by constituency and sums all candidate votes to get total turnout</li>
-<li>Calculates turnout as a percentage of registered voters</li>
-<li>Removes any constituencies with invalid data (zero electorate or infinite values)</li>
-</ol>
-<p>The trickiest part was realizing I needed <code>max(electorate)</code> rather than <code>sum(electorate)</code> - since electorate is the same for all candidates in a constituency, summing would multiply it by the number of candidates!</p>
-<h1 id="analysis-and-visualization">Analysis and Visualization</h1>
-<p>My main research question was: <strong>How does voter turnout vary across the four nations of the UK?</strong></p>
-<p>First, I calculated summary statistics by country:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>turnout_by_country</span> <span class='op'>&lt;-</span> <span class='va'>uk</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>country_name</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span></span>
-<span>    mean_turnout <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>turnout_registered</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
-<span>    median_turnout <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='va'>turnout_registered</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
-<span>    n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
-<span>    .groups <span class='op'>=</span> <span class='st'>"drop"</span></span>
-<span>  <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>mean_turnout</span><span class='op'>)</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>turnout_by_country</span></span></code></pre>
-</div>
-<pre><code># A tibble: 4 × 4
-  country_name     mean_turnout median_turnout     n
-  &lt;chr&gt;                   &lt;dbl&gt;          &lt;dbl&gt; &lt;int&gt;
-1 England                  60.1           60.7   543
-2 Scotland                 59.2           58.6    57
-3 Northern Ireland         57.1           58.2    18
-4 Wales                    56.2           56.8    32</code></pre>
-</div>
-<p>Then I created a visualization to show both mean and median turnout by country:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>turnout_by_country</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>country_name</span>, <span class='va'>mean_turnout</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>mean_turnout</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.7</span>, fill <span class='op'>=</span> <span class='st'>"#0072B2"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>median_turnout</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span><span class='op'>)</span>,</span>
-<span>                     expand <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/expansion.html'>expansion</a></span><span class='op'>(</span>mult <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.05</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
-<span>    title <span class='op'>=</span> <span class='st'>"UK 2024 General Election: Mean &amp; Median Turnout by Country"</span>,</span>
-<span>    subtitle <span class='op'>=</span> <span class='st'>"Bars = mean turnout; Red points = median turnout"</span>,</span>
-<span>    x <span class='op'>=</span> <span class='st'>"Country"</span>,</span>
-<span>    y <span class='op'>=</span> <span class='st'>"Turnout (% of registered voters)"</span></span>
-<span>  <span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
-</div>
-<div class="figure"><span style="display:block;" id="fig:main-visualization"></span>
-<img src="gv300-showcase_files/figure-html5/main-visualization-1.png" alt="Mean and median voter turnout by UK country in the 2024 General Election" width="768" />
-<p class="caption">
-Figure 1: Mean and median voter turnout by UK country in the 2024 General Election
-</p>
-</div>
-</div>
-<h2 id="interpretation">Interpretation</h2>
-<p>This visualization reveals several interesting patterns:</p>
-<ol type="1">
-<li><p><strong>England had the highest mean turnout</strong> at about 60%, followed closely by Scotland at 59%. This surprised me initially, as I expected Scotland to lead given its recent high-profile independence debates and generally high political engagement.</p></li>
-<li><p><strong>Wales and Northern Ireland had lower turnout</strong>, averaging around 56-57%. Wales’s lower turnout might reflect economic challenges and political disillusionment in some constituencies, while Northern Ireland’s unique political context (including power-sharing arrangements and different party systems) may affect participation patterns.</p></li>
-<li><p><strong>The red dots show median turnout is often very close to the mean</strong>, suggesting turnout is fairly symmetrically distributed within each country without major outliers pulling the average up or down dramatically.</p></li>
-<li><p><strong>One limitation</strong> is that these country-level averages hide substantial variation within countries. Urban constituencies (like Manchester or Glasgow) tend to have lower turnout than rural or suburban areas, regardless of country. Future analysis could explore these within-country differences.</p></li>
-</ol>
-<p>Through exploring the data further, I noticed that high-turnout constituencies tended to be smaller, more affluent areas, while low-turnout areas were often large urban constituencies with younger populations and more rental housing. This suggests turnout patterns are driven by local socioeconomic factors as much as national-level politics.</p>
-<h1 id="what-i-learned">What I Learned</h1>
-<p>Through this assignment, I developed several key skills:</p>
-<ul>
-<li><p><strong>Data wrangling</strong>: I learned how to use <code>group_by()</code> and <code>summarise()</code> to aggregate candidate-level data up to constituencies, and how to handle inconsistently named columns using <code>str_replace_all()</code>.</p></li>
-<li><p><strong>Visualization design</strong>: I practiced making design choices to improve readability - adding median turnout as points to show variability, reordering bars by value for easier comparison, and using percentage formatting on the y-axis.</p></li>
-<li><p><strong>Critical interpretation</strong>: I learned to look beyond surface patterns. Initially, I might have just said “England has the highest turnout,” but digging deeper revealed that the differences between countries are fairly modest, and within-country variation is probably more important than between-country differences.</p></li>
-</ul>
-<p>The biggest challenge was figuring out why my turnout calculations were initially coming out wrong - I was summing electorate instead of taking the max, which gave me absurdly high numbers! Once I realized each row represented a candidate (not a constituency), the solution became clear. This taught me the importance of truly understanding your data structure before doing calculations.</p>
-<h1 id="code-repository">Code Repository</h1>
-<p>The complete code and data files for this analysis are available in my GitHub repository:<br />
-<a href="https://github.com/brandon-unigit/gv300-showcase">github.com/brandon-unigit/gv300-showcase</a></p>
-<h1 id="references">References</h1>
-<p>Electoral Commission. (2024). <em>Candidate-level results: General Election 4 July 2024</em>. Retrieved from official UK Electoral Commission data portal.</p>
-<hr />
-<p><em>This analysis was completed as part of GV300 (Data Science with R) at the University of Essex. All code and interpretation is my own work, completed in November 2025.</em></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
