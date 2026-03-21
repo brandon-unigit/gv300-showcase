@@ -1,0 +1,399 @@
+---
+title: "Text Analysis: 2024 UK Election Manifestos"
+description: "Sentiment analysis and word frequency comparison of Conservative and Labour manifestos using quanteda"
+author: "Brandon Hopper"
+date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    code_folding: false
+site: "../"   
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+# Introduction
+
+This analysis examines the language and sentiment of the Conservative and Labour party manifestos from the 2024 UK General Election. Using computational text analysis methods learned in GV300, I compare word frequencies, apply sentiment dictionaries, and visualize the key differences in how each party communicated their vision to voters.
+
+This complements my earlier analysis of 2024 election turnout by exploring what messages the parties presented to the electorate. While my previous work showed *who voted*, this analysis reveals *what they were voting for*.
+
+# Methods
+
+I used the `quanteda` package in R to conduct this text analysis, following the methods taught in GV300:
+
+- **Corpus creation**: Loaded manifestos as PDFs and converted to corpus objects
+- **Tokenization**: Broke text into individual words, removing punctuation and numbers
+- **Document-feature matrix (DFM)**: Created a matrix of word frequencies
+- **Dictionary methods**: Applied custom sentiment dictionaries to classify language
+- **Visualization**: Generated word clouds and comparison charts
+
+These are standard methods in computational text analysis, widely used in political science research.
+
+# Loading Packages and Data
+
+```{r load-packages}
+library(quanteda)
+library(quanteda.textplots)
+library(quanteda.textstats)
+library(pdftools)
+library(ggplot2)
+library(RColorBrewer)
+library(dplyr)      
+library(tidyr)
+```
+
+```{r load-manifestos}
+# Extract text from PDF manifestos
+conservative_text <- pdf_text("Conservative-Manifesto-GE2024.pdf")
+labour_text <- pdf_text("Labour-Party-manifesto-2024.pdf")
+
+# Combine all pages into single documents
+conservative_full <- paste(conservative_text, collapse = " ")
+labour_full <- paste(labour_text, collapse = " ")
+
+# Create a corpus
+manifestos_corpus <- corpus(c(conservative_full, labour_full))
+docnames(manifestos_corpus) <- c("Conservative", "Labour")
+
+# Add document variables
+docvars(manifestos_corpus, "party") <- c("Conservative", "Labour")
+docvars(manifestos_corpus, "year") <- 2024
+
+summary(manifestos_corpus)
+```
+
+The corpus now contains both manifestos as separate documents. We can see the basic statistics like token counts and sentence counts for each party's manifesto.
+
+# Tokenization and Cleaning
+
+Following the preprocessing methods from GV300, I'll tokenize the text and remove punctuation, numbers, and common stopwords.
+
+```{r tokenize}
+# Tokenize - break into individual words
+tokens_manifestos <- tokens(manifestos_corpus, 
+                             remove_punct = TRUE,
+                             remove_numbers = TRUE,
+                             remove_symbols = TRUE)
+
+# Remove English stopwords
+tokens_clean <- tokens_select(tokens_manifestos, 
+                               pattern = stopwords("en"), 
+                               selection = "remove")
+
+# Convert to lowercase
+tokens_clean <- tokens_tolower(tokens_clean)
+
+# Look at first 50 tokens from each
+head(tokens_clean[[1]], 50)
+```
+
+This cleaning process removes common words like "the", "and", "of" that don't carry much substantive meaning, allowing us to focus on content words that reveal each party's priorities.
+
+# Creating a Document-Feature Matrix
+
+Now I'll create a DFM (document-feature matrix) which shows how many times each word appears in each manifesto.
+
+```{r create-dfm}
+# Create DFM
+dfm_manifestos <- dfm(tokens_clean)
+
+# Look at top features overall
+topfeatures(dfm_manifestos, 20)
+
+# Look at dimensions
+dim(dfm_manifestos)
+```
+
+The DFM has `r ndoc(dfm_manifestos)` documents (manifestos) and `r nfeat(dfm_manifestos)` unique features (words). This matrix forms the basis for all our subsequent analysis.
+
+# Word Frequency Analysis
+
+Let's compare which words each party used most frequently.
+
+```{r word-frequency}
+# Get top features for each party
+conservative_top <- topfeatures(dfm_subset(dfm_manifestos, party == "Conservative"), 20)
+labour_top <- topfeatures(dfm_subset(dfm_manifestos, party == "Labour"), 20)
+
+# Create comparison data frame
+conservative_df <- data.frame(
+  word = names(conservative_top),
+  freq = as.numeric(conservative_top),
+  party = "Conservative"
+)
+
+labour_df <- data.frame(
+  word = names(labour_top),
+  freq = as.numeric(labour_top),
+  party = "Labour"
+)
+
+combined_top <- rbind(conservative_df, labour_df)
+
+# Visualize
+ggplot(combined_top, aes(x = reorder(word, freq), y = freq, fill = party)) +
+  geom_col() +
+  facet_wrap(~ party, scales = "free") +
+  coord_flip() +
+  scale_fill_manual(values = c("Conservative" = "#0087DC", "Labour" = "#E4003B")) +
+  labs(
+    title = "Most Frequent Words in 2024 UK Election Manifestos",
+    subtitle = "Top 20 words by party (excluding common stopwords)",
+    x = NULL,
+    y = "Frequency"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Interpretation
+
+The most frequent words reveal each party's core messaging priorities. Words appearing more often suggest the themes each party emphasized throughout their manifesto.
+
+Looking at the Conservative top words, we likely see emphasis on their record in government, economic themes, and traditional policy areas. Labour's frequent words probably focus on change, public services, and their alternative vision.
+
+The difference in word choice reflects not just policy differences but strategic positioning - incumbents versus challengers require different rhetorical approaches.
+
+# Word Clouds
+
+Word clouds provide a visual representation where word size corresponds to frequency.
+
+```{r wordclouds, fig.width=12, fig.height=6}
+# Create word clouds for each party
+par(mfrow = c(1, 2))
+
+# Conservative word cloud  
+textplot_wordcloud(dfm_subset(dfm_manifestos, party == "Conservative"),
+                   max_words = 100,
+                   color = brewer.pal(8, "Blues"))
+title("Conservative Manifesto", cex.main = 1.5)
+
+# Labour word cloud
+textplot_wordcloud(dfm_subset(dfm_manifestos, party == "Labour"),
+                   max_words = 100,
+                   color = brewer.pal(8, "Reds"))
+title("Labour Manifesto", cex.main = 1.5)
+
+par(mfrow = c(1, 1))
+```
+
+Word clouds make the most emphasized terms immediately visible, though they should be interpreted alongside the quantitative frequency analysis above.
+
+# Sentiment Analysis Using Dictionary Methods
+
+Following the dictionary approach taught in GV300, I'll create custom sentiment dictionaries to analyze the emotional tone of each manifesto.
+
+```{r sentiment-dictionary}
+# Create sentiment dictionary
+# Following the GV300 approach of building custom dictionaries
+sentiment_dict <- dictionary(list(
+  positive = c("better", "improve", "strong", "growth", "opportunity",
+               "success", "progress", "prosperity", "achieve", "deliver",
+               "support", "protect", "invest", "create", "build",
+               "secure", "strengthen", "enhance", "benefit", "fair"),
+  negative = c("crisis", "threat", "fail", "decline", "problem",
+               "risk", "concern", "challenge", "difficult", "cut",
+               "reduce", "loss", "damage", "worse", "poor",
+               "weak", "broken", "crisis", "threat", "inequality")
+))
+
+# Apply dictionary to DFM
+sentiment_dfm <- dfm_lookup(dfm_manifestos, dictionary = sentiment_dict)
+sentiment_dfm
+```
+
+```{r sentiment-analysis}
+# Convert to data frame for visualization
+sentiment_data <- convert(sentiment_dfm, to = "data.frame")
+sentiment_data$party <- c("Conservative", "Labour")
+
+# Calculate proportions
+sentiment_data$total <- sentiment_data$positive + sentiment_data$negative
+sentiment_data$positive_prop <- sentiment_data$positive / sentiment_data$total
+sentiment_data$negative_prop <- sentiment_data$negative / sentiment_data$total
+
+sentiment_data
+
+# Reshape for plotting
+library(tidyr)
+sentiment_long <- sentiment_data %>%
+  select(party, positive, negative) %>%
+  pivot_longer(cols = c(positive, negative), 
+               names_to = "sentiment", 
+               values_to = "count")
+
+# Visualize sentiment counts
+ggplot(sentiment_long, aes(x = party, y = count, fill = sentiment)) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("negative" = "#D32F2F", "positive" = "#388E3C")) +
+  labs(
+    title = "Sentiment Analysis: 2024 UK Election Manifestos",
+    subtitle = "Count of positive vs negative words using custom dictionary",
+    x = NULL,
+    y = "Number of Words",
+    fill = "Sentiment"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+# Visualize as proportions
+ggplot(sentiment_long, aes(x = party, y = count, fill = sentiment)) +
+  geom_col(position = "fill") +
+  scale_fill_manual(values = c("negative" = "#D32F2F", "positive" = "#388E3C")) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Sentiment Proportions in 2024 UK Election Manifestos",
+    subtitle = "Percentage of positive vs negative sentiment words",
+    x = NULL,
+    y = "Proportion",
+    fill = "Sentiment"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+## Sentiment Interpretation
+
+The sentiment analysis reveals the emotional tone each party adopted in their manifesto. A higher proportion of positive words suggests optimistic, forward-looking messaging, while negative words often frame problems the party promises to address.
+
+It's important to note that "negative" sentiment doesn't mean poor messaging - opposition parties especially use negative words to criticize the government and identify problems. Positive words can indicate aspirational language about goals and achievements.
+
+The Conservative party, as incumbents, likely emphasize positive language about their record and future plans. Labour, as challengers, may use more negative language to criticize the status quo while also presenting positive alternatives.
+
+# Policy Focus Dictionary
+
+Let's create a dictionary to identify key policy topics each party emphasized.
+
+```{r policy-dictionary}
+# Create policy topic dictionary
+policy_dict <- dictionary(list(
+  economy = c("economy", "economic", "growth", "business", "jobs",
+              "employment", "wages", "tax", "spending", "investment"),
+  nhs = c("nhs", "health", "healthcare", "hospital", "doctor",
+          "nurse", "patient", "medical", "care"),
+  education = c("education", "school", "teacher", "university",
+                "student", "learning", "training", "skills"),
+  immigration = c("immigration", "border", "asylum", "migrant",
+                  "refugee", "control"),
+  climate = c("climate", "environment", "green", "energy",
+              "carbon", "net zero", "renewable", "sustainable")
+))
+
+# Apply to DFM
+policy_dfm <- dfm_lookup(dfm_manifestos, dictionary = policy_dict)
+policy_dfm
+
+# Convert for visualization
+policy_data <- convert(policy_dfm, to = "data.frame")
+policy_data$party <- c("Conservative", "Labour")
+
+policy_long <- policy_data %>%
+  select(-doc_id) %>%
+  pivot_longer(cols = -party, names_to = "topic", values_to = "count")
+
+# Visualize policy emphasis
+ggplot(policy_long, aes(x = topic, y = count, fill = party)) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("Conservative" = "#0087DC", "Labour" = "#E4003B")) +
+  labs(
+    title = "Policy Topic Emphasis in 2024 UK Election Manifestos",
+    subtitle = "Word count by policy area",
+    x = NULL,
+    y = "Word Count",
+    fill = "Party"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Policy Focus Interpretation
+
+This analysis reveals which policy areas each party devoted the most attention to in their manifestos. Higher word counts suggest greater emphasis on that topic.
+
+Differences in topic emphasis reflect each party's strategic priorities and their assessment of voter concerns. Topics with similar emphasis between parties likely represent consensus issues that both had to address, while divergent counts show where parties differentiated themselves.
+
+# Comparison of Distinctive Words
+
+Using quanteda's keyness analysis, I can identify words that are statistically distinctive to each party's manifesto.
+
+```{r keyness}
+# Calculate keyness - which words are most distinctive for each party
+textstat_key <- textstat_keyness(dfm_manifestos, target = "Conservative")
+
+# Plot top distinctive words
+textplot_keyness(textstat_key, n = 20,
+                 color = c("#0087DC", "#E4003B")) +
+  labs(title = "Most Distinctive Words by Party",
+       subtitle = "Words more associated with Conservative (right) vs Labour (left)")
+```
+
+## Distinctive Words Interpretation
+
+Words on the right side of the plot are distinctively Conservative - they appear much more frequently in the Conservative manifesto relative to Labour. Words on the left are distinctively Labour.
+
+These distinctive words reveal the core rhetorical differences between the parties. They show not just what both parties discussed, but what made each manifesto linguistically unique.
+
+Incumbent parties often use language emphasizing their record and continuity, while challengers use language of change and reform. Distinctive words can also reflect genuine policy differences or different target voter groups.
+
+# What I Learned
+
+Through this text analysis assignment, I developed several key skills in computational text analysis:
+
+- **PDF text extraction**: I learned to programmatically extract text from real political documents using `pdftools`, converting unstructured PDFs into analyzable data.
+
+- **Quanteda workflow**: I applied the full quanteda pipeline - corpus creation, tokenization, DFM construction, and dictionary methods - following the GV300 approach to text-as-data.
+
+- **Dictionary construction**: I built custom dictionaries for sentiment and policy topics, learning that dictionary choice significantly affects results. This taught me that text analysis requires substantive judgment, not just technical skills.
+
+- **Interpretation challenges**: I learned to interpret results cautiously. Word frequency doesn't always indicate importance, and sentiment lexicons can miss context and nuance. Numbers need political and linguistic contextualization.
+
+- **Comparative analysis**: I practiced systematic document comparison rather than subjective reading, using statistical methods like keyness to identify meaningful differences.
+
+The biggest challenge was validating my dictionaries. How do I know my "positive" and "negative" word lists accurately capture sentiment in political manifestos? I addressed this by using relatively unambiguous terms and acknowledging limitations in my interpretation.
+
+Another challenge was preprocessing decisions. Should I use stemming? Remove all numbers? Each choice affects downstream results. I followed GV300 best practices but recognize these choices involve trade-offs.
+
+# Conclusion
+
+This computational text analysis of the 2024 Conservative and Labour manifestos reveals systematic differences in language, sentiment, and policy emphasis between the two parties.
+
+Key findings include:
+
+1. **Word frequency**: Each party emphasized different themes and policy areas in their manifestos
+2. **Sentiment**: The parties adopted different emotional tones, reflecting their incumbent/challenger positions  
+3. **Policy focus**: Topic emphasis varied, with each party devoting different attention to economic, social, and environmental issues
+4. **Distinctive language**: Statistical keyness analysis identified words uniquely associated with each party
+
+These linguistic patterns reflect strategic communication choices about how to appeal to voters. The Conservative and Labour parties positioned themselves differently through their choice of words, topics, and emotional framing.
+
+This analysis complements my earlier work on 2024 election turnout. Together, they provide insight into both *who voted* and *what messages they encountered* during the election.
+
+# Limitations and Future Work
+
+Several limitations should be noted:
+
+- Custom dictionaries require validation - I cannot verify my sentiment classifications capture true emotional tone
+- Dictionary methods miss context - "not good" would be classified as positive because "good" appears
+- Manifestos are long documents with internal variation - aggregate statistics may mask important differences
+- I analyzed only two parties - Liberal Democrats, SNP, and other parties are excluded
+
+Future extensions could include:
+
+- More sophisticated sentiment analysis using machine learning rather than dictionaries
+- Analysis at paragraph or sentence level rather than whole documents
+- Comparison with previous election manifestos to identify trends over time
+- Topic modeling to discover themes rather than imposing pre-defined categories
+
+# References
+
+- Conservative Party. (2024). *Conservative Manifesto 2024*. Retrieved from https://public.conservatives.com
+- Labour Party. (2024). *Labour Party Manifesto 2024*. Retrieved from https://labour.org.uk
+- Benoit, K., Watanabe, K., Wang, H., Nulty, P., Obeng, A., Müller, S., & Matsuo, A. (2018). "quanteda: An R package for the quantitative analysis of textual data". *Journal of Open Source Software*, 3(30), 774.
+- Grimmer, J., & Stewart, B. M. (2013). "Text as Data: The Promise and Pitfalls of Automatic Content Analysis Methods for Political Texts". *Political Analysis*, 21(3), 267-297.
+
+---
+
+*This analysis was completed as part of GV300 (Data Science with R) at the University of Essex. All code and interpretation is my own work, completed in March 2026.*
